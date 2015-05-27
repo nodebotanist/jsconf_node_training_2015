@@ -4,7 +4,22 @@
 	<title></title>
 </head>
 <body>
-<h1>Hello!</h1>
+<h1>Color app</h1>
+<h2>Add a color</h2>
+<form action="/addColor" method="POST">
+	<label for="red">Red:</label>
+	<input type="text" name="red" />
+	<label for="green">Green:</label>
+	<input type="text" name="green" />
+	<label for="blue">Blue:</label>
+	<input type="text" name="blue" />
+	<input type="submit" value="Add Color!"/>
+</form>
+<h2>Currently on display:</h2>
+<div class="onDisplay"></div>
+<h2>Currently in Queue:</h2>
+<div class="inQueue"></div>
+<script src="jquery-2.1.4.min.js"></script>
 <script src="index.js"></script>
 </body>
 </html>

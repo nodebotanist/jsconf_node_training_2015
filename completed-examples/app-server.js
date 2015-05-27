@@ -44,6 +44,24 @@ server.route({
 });
 
 server.route({
+	method: 'POST',
+	path: '/addColor',
+	handler: function(req, reply){
+		request.post({
+			url: 'http://e75ef0d6.ngrok.io/addColor',
+			form: {
+				red: req.payload.red,
+				green: req.payload.green,
+				blue: req.payload.blue
+			}
+		},
+		function(err, response, body){
+			reply(body);
+		})	
+	}
+})
+
+server.route({
     method: 'GET',
     path: '/{param*}',
     handler: {
