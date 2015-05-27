@@ -11,7 +11,6 @@
     * Handling POST data
 * What we'll use
     * Hapi.js
-    * Grunt 
     * Request
 * Installing
     * Install IO.js
