@@ -1,5 +1,6 @@
 //Example 1-2
 var Hapi = require('hapi');
+var Joi = require('joi');
 var request = require('request');
 
 var server = new Hapi.Server();
@@ -30,6 +31,15 @@ server.route({
 		function(err, response, body){
 			reply(body);
 		})
+	},
+	config: {
+		validate: {
+			params: {
+				red: Joi.number().min(0).max(255),
+				green: Joi.number().min(0).max(255),
+				blue: Joi.number().min(0).max(255)
+			}
+		}
 	}
 });
 

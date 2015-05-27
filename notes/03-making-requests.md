@@ -51,3 +51,21 @@ Write a route at GET /addColor/{red}/{green}/{blue} that takes those URL params 
 * request has a `.post` method:
 * request.post('http://service.com/upload', {form:{key:'value'}})
 * We want to put red, green, and blue into the form attribute.
+
+## Excercise 3-4: Adding a little joi to our app (validation)
+
+### What to do:
+
+Add validation to our /addColor route to make sure red, green, and blue are sent, and that they are numbers between 0 and 255.
+
+### Notes:
+
+Don't forget to install.require joi!
+We need to add a `config` attribute to our route:
+    config: {
+        validate: {
+            params: {
+                name: Joi.number().min(3).max(10)
+            }
+        }
+    }
