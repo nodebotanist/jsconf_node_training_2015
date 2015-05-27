@@ -6,11 +6,13 @@ var request = require('request');
 var server = new Hapi.Server();
 server.connection({ port: 1337 });
 
+var robotServer = 'http://localhost:3000';
+
 server.route({
 	method: 'GET',
 	path: '/colorQueue',
 	handler: function(req, reply){
-		request('http://e75ef0d6.ngrok.io/getColorQueue', function(err, response, body){
+		request(robotServer + '/getColorQueue', function(err, response, body){
 			reply(body);
 		})
 	}
@@ -21,7 +23,7 @@ server.route({
 	path: '/addColor/{red}/{green}/{blue}',
 	handler: function(req, reply){
 		request.post({
-			url: 'http://e75ef0d6.ngrok.io/addColor',
+			url: robotServer + '/addColor',
 			form: {
 				red: req.params.red,
 				green: req.params.green,
@@ -48,7 +50,7 @@ server.route({
 	path: '/addColor',
 	handler: function(req, reply){
 		request.post({
-			url: 'http://e75ef0d6.ngrok.io/addColor',
+			url: robotServer + '/addColor',
 			form: {
 				red: req.payload.red,
 				green: req.payload.green,
@@ -57,7 +59,7 @@ server.route({
 		},
 		function(err, response, body){
 			reply(body);
-		})	
+		})
 	}
 })
 
