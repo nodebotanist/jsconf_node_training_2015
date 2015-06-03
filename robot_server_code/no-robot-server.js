@@ -1,4 +1,4 @@
-/* 
+/*
   This server is set up for students that don't have the robot ready but want to run the server.
   It has the same API, it just won't make lights change color.
 */
@@ -10,6 +10,12 @@ var server = new Hapi.Server();
 server.connection({ port: 3000 });
 
 //Robot initialization code goes here!
+var io = require('socket.io')(server.listener);
+
+io.on('connection', function (socket) {
+  console.log('Socket connected!');
+  emitColors();
+});
 
 //let's set up the color queue!
 var color_queue = [];
@@ -26,11 +32,20 @@ function colorShift(){
     colors_on_display.push(new_color);
 
     //re-render robot here.
+    emitColors();
   }
 }
 
 //we want the color to shift every 5 seconds
 setInterval(colorShift, 5000);
+
+// Set up simple emission of colors
+function emitColors () {
+  io.sockets.emit('colors', {
+    colorsQueued: color_queue,
+    colorsOnDisplay: colors_on_display
+  });
+}
 
 //routes go here!
 server.route({
@@ -51,6 +66,7 @@ server.route({
   path: '/addColor',
   handler: function (request, reply){
     color_queue.push([request.payload.red, request.payload.green, request.payload.blue]);
+    emitColors();
     reply('color added');
   },
   config: {
@@ -60,6 +76,17 @@ server.route({
         green: Joi.number().min(0).max(255),
         blue: Joi.number().min(0).max(255)
       }
+    }
+  }
+});
+
+
+server.route({
+  method: 'GET',
+  path: '/{param*}',
+  handler: {
+    directory: {
+      path: 'public'
     }
   }
 });
